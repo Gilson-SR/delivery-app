@@ -5,18 +5,24 @@ module.exports = (sequelize, DataTypes) => {
     totalPrice: DataTypes.DECIMAL,
     deliveryAddress: DataTypes.STRING,
     deliveryNumber: DataTypes.STRING,
-    saleDate: DataTypes.DATE,
-    status: DataTypes.STRING,
+    saleDate: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
+    },
+    status: {
+      type: DataTypes.STRING,
+      defaultValue: 'Pendente'
+    }
   }, {
     tableName: 'sales',
     underscored: true,
-    timestamps: false
+    timestamps: false,
   });
 
   SaleTable.associate = ({ User }) => {
-    SaleTable.belongsTo(User, { foreignKey: 'userId', as: 'user'})
-    SaleTable.belongsTo(User, { foreignKey: 'sellerId', as: 'saller'})
-  }
+    SaleTable.belongsTo(User, { foreignKey: 'userId', as: 'user' });
+    SaleTable.belongsTo(User, { foreignKey: 'sellerId', as: 'seller' });
+  };
 
   return SaleTable;
-}
+};
